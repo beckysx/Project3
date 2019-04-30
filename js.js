@@ -25,4 +25,6 @@ Promise.all([o14,t14,o15,t15,o16,t16,o17,t17,o18,t18]).then(function(d){
         dataset[i/2].oscar.push(ob)})
 }
   }
+
+  console.log(dataset)
 })

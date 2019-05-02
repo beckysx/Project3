@@ -1,10 +1,10 @@
-﻿ID,Name,TicketsSold,Rate,Genre
-1,Moonlight,1457776,7.4,Drama
-2,Arrival,10657998,7.9,"Drama, Mystery, Sci-Fi "
-3,Fences,3438568,7.2,Drama
-4,Hacksaw Ridge,7468967,8.1,"Biography, Drama, History"
-5,Hell or High Water,3122294,7.6,"Action, Crime, Drama "
-6,Hidden Figures,229706,7.8,"Biography, Drama, History "
-7,La La Land,3961689,8,"Comedy, Drama, Music"
-8,Lion,613145,8.1,"Biography, Drama"
-9,Manchester by the Sea,3291410,7.8,Drama
+﻿ID,Name,TicketsSold,Rate,Genre,Year,Type
+1,Moonlight,1457776,7.4,Drama,2016,oscar
+2,Arrival,10657998,7.9,"Drama, Mystery, Sci-Fi ",2016,oscar
+3,Fences,3438568,7.2,Drama,2016,oscar
+4,Hacksaw Ridge,7468967,8.1,"Biography, Drama, History",2016,oscar
+5,Hell or High Water,3122294,7.6,"Action, Crime, Drama ",2016,oscar
+6,Hidden Figures,229706,7.8,"Biography, Drama, History ",2016,oscar
+7,La La Land,3961689,8,"Comedy, Drama, Music",2016,oscar
+8,Lion,613145,8.1,"Biography, Drama",2016,oscar
+9,Manchester by the Sea,3291410,7.8,Drama,2016,oscar

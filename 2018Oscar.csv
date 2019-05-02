@@ -1,7 +1,7 @@
-﻿ID,Name,TicketsSold,Rate,Genre
-1,Green Book ,3867270,8.3,"Biography, Comedy, Drama "
-2,Black Panther,76845177,7.3,"Action, Adventure, Sci-Fi "
-3,BlacKkKlansman,5326846,7.5,"Biography, Crime, Drama "
-4,Bohemian Rhapsody,21256308,8.1,"Biography, Drama, Music"
-5,The Favourite,1744069,7.6,"Biography, Drama, History "
-6,A Star is Born,22080997,7.8,"Drama, Music, Romance "
+﻿ID,Name,TicketsSold,Rate,Genre,Year,Type
+1,Green Book ,3867270,8.3,"Biography, Comedy, Drama ",2018,oscar
+2,Black Panther,76845177,7.3,"Action, Adventure, Sci-Fi ",2018,oscar
+3,BlacKkKlansman,5326846,7.5,"Biography, Crime, Drama ",2018,oscar
+4,Bohemian Rhapsody,21256308,8.1,"Biography, Drama, Music",2018,oscar
+5,The Favourite,1744069,7.6,"Biography, Drama, History ",2018,oscar
+6,A Star is Born,22080997,7.8,"Drama, Music, Romance ",2018,oscar

@@ -1,11 +1,11 @@
-﻿ID,Name,TicketsSold,Rate,Genre
-1,Star Wars Ep. VIII: The Last Jedi,57660910,7.2,"Action, Adventure, Fantasy"
-2,Beauty and the Beast,56188870,7.2,"Family, Fantasy, Musical "
-3,Wonder Woman,45993691,7.5,"Action, Adventure, Fantasy"
-4,Guardians of the Galaxy Vol 2,43457424,7.7,"Action, Adventure, Comedy "
-5,Spider-Man: Homecoming,37257652,7.5,"Action, Adventure, Sci-Fi"
-6,It,36508556,7.4,"Horror, Thriller"
-7,Thor: Ragnarok,34696226,7.9,"Action, Adventure, Comedy"
-8,Despicable Me 3,29501036,6.3,"Animation, Action, Adventure"
-9,Logan,25225983,8.1,"Action, Drama, Sci-Fi"
-10,The Fate of the Furious,25168870,6.7,"Action, Crime, Thriller"
+﻿ID,Name,TicketsSold,Rate,Genre,Year,Type
+1,Star Wars Ep. VIII: The Last Jedi,57660910,7.2,"Action, Adventure, Fantasy",2017,top
+2,Beauty and the Beast,56188870,7.2,"Family, Fantasy, Musical ",2017,top
+3,Wonder Woman,45993691,7.5,"Action, Adventure, Fantasy",2017,top
+4,Guardians of the Galaxy Vol 2,43457424,7.7,"Action, Adventure, Comedy ",2017,top
+5,Spider-Man: Homecoming,37257652,7.5,"Action, Adventure, Sci-Fi",2017,top
+6,It,36508556,7.4,"Horror, Thriller",2017,top
+7,Thor: Ragnarok,34696226,7.9,"Action, Adventure, Comedy",2017,top
+8,Despicable Me 3,29501036,6.3,"Animation, Action, Adventure",2017,top
+9,Logan,25225983,8.1,"Action, Drama, Sci-Fi",2017,top
+10,The Fate of the Furious,25168870,6.7,"Action, Crime, Thriller",2017,top

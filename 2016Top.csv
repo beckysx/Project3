@@ -1,11 +1,11 @@
-﻿ID,Name,TicketsSold,Rate,Genre
-1,Finding Dory,56219140,7.3,"Animation, Adventure, Comedy"
-2,Rogue One: A Star Wars Story,49131526,7.8,"Action, Adventure, Sci-Fi "
-3,Captain America: Civil War,47177381,7.8,"Action, Adventure, Sci-Fi "
-4,The Secret Life of Pets,42587783,6.5,"Animation, Adventure, Comedy"
-5,The Jungle Book,42081054,7.4,"Adventure, Drama, Family"
-6,Deadpool,41973492,8,"Action, Adventure, Comedy"
-7,Zootopia,39452976,8,"Animation, Adventure, Comedy"
-8,Batman v Superman: Dawn of Justice,38191930,6.5,"Action, Adventure, Fantasy"
-9,Suicide Squad,37583821,6.1,"Action, Adventure, Fantasy"
-10,Doctor Strange,26602056,7.5,"Action, Adventure, Fantasy"
+﻿ID,Name,TicketsSold,Rate,Genre,Year,Type
+1,Finding Dory,56219140,7.3,"Animation, Adventure, Comedy",2016,top
+2,Rogue One: A Star Wars Story,49131526,7.8,"Action, Adventure, Sci-Fi ",2016,top
+3,Captain America: Civil War,47177381,7.8,"Action, Adventure, Sci-Fi ",2016,top
+4,The Secret Life of Pets,42587783,6.5,"Animation, Adventure, Comedy",2016,top
+5,The Jungle Book,42081054,7.4,"Adventure, Drama, Family",2016,top
+6,Deadpool,41973492,8,"Action, Adventure, Comedy",2016,top
+7,Zootopia,39452976,8,"Animation, Adventure, Comedy",2016,top
+8,Batman v Superman: Dawn of Justice,38191930,6.5,"Action, Adventure, Fantasy",2016,top
+9,Suicide Squad,37583821,6.1,"Action, Adventure, Fantasy",2016,top
+10,Doctor Strange,26602056,7.5,"Action, Adventure, Fantasy",2016,top

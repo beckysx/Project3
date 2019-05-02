@@ -35,7 +35,7 @@ Promise.all([o14,t14,o15,t15,o16,t16,o17,t17,o18,t18]).then(function(d){
     var tsum=0
     d[i].forEach(function(a){
       tsum=tsum+parseInt(a.TicketsSold)
-        var ob={"name":a.Name,"ticket":parseInt(a.TicketsSold),"rate":a.Rate,"genre":a.Genre}
+        var ob={"name":a.Name,"ticket":parseInt(a.TicketsSold),"rate":a.Rate,"genre":a.Genre,"year":parseInt(a.Year),"type":a.Type}
         dataset.children[i/2].children[1].children.push(ob)})
     dataset.children[i/2].children[1].ticket=tsum
 }

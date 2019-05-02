@@ -46,9 +46,6 @@ Promise.all([o14,t14,o15,t15,o16,t16,o17,t17,o18,t18]).then(function(d){
   var w = screen.width - margin.left - margin.right;
   var h = screen.height - margin.top - margin.bottom;
 
-  var svg=d3.select("body").append("svg")
-  .attr('width', screen.width)
-  .attr('height', screen.height)
 
 var pack=d3.pack()
 .size([w,h])
@@ -68,11 +65,39 @@ var layer2=d3.scaleOrdinal()
 .domain([2014,2015,2016,2017,2018])
 .range(["#A7BCC6","#CFBCCC","#B9B4B4","#C4AF89","#F3CC89"])
 
-svg.append("g").selectAll("circle").data(nodes)
+// zoom and drag
+/*var zoom=d3.zoom()
+.scaleExtent([1 / 2, 8])
+.on('zoom', zoomfunction)*/
+
+var drag=d3.drag()
+        .on("drag", dragfunction)
+
+var svg=d3.select("body").append("svg")
+.attr('width', screen.width)
+.attr('height', screen.height)
+//.call(zoom)
+
+var innerSpace=svg.append("g").attr('class', 'inner_space')
+.call(drag)
+
+var zoomfunction=function(){
+  innerSpace.attr("transform", d3.event.transform)
+}
+
+var dragfunction=function(dataset){
+  d3.select(this).attr("cx", d.x = d3.event.x).attr("cy", d.y = d3.event.y)
+
+}
+
+
+
+// all circles
+innerSpace.selectAll("circle").data(nodes.slice(1))
 .enter()
     .append('circle')
-    .attr('cx', function(d){return d.x})
-    .attr('cy', function(d){return d.y})
+    .attr('cx', function(d){return d.x-200})
+    .attr('cy', function(d){return d.y-45})
     .attr('r',function(d){return d.r} )
     .style('fill', function(d){
       if (d.height==3){

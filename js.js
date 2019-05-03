@@ -66,8 +66,13 @@ var layer2=d3.scaleOrdinal()
 .range(["#A7BCC6","#CFBCCC","#B9B4B4","#C4AF89","#F3CC89"])
 
 // zoom and drag
+
+var zoomfunction=function(){
+  console.log("????")
+  svg.attr("transform",d3.event.transform)
+}
+
 var zoom=d3.zoom()
-.scaleExtent([1,5])
 .on('zoom', zoomfunction)
 
 var drag=d3.drag()
@@ -83,13 +88,13 @@ var svg=d3.select("body").append("svg")
 .attr('width', screen.width)
 .attr('height', screen.height)
 .attr('id', 'window')
+.call(zoom)
 
 
 for (i=0;i<5;i++){
-  var g=svg.append("svg")
-  .call(zoom)
-  .append("g").attr("id",function(){return "y"+(2014+i)})
+  var g=svg.append("g").attr("id",function(){return "y"+(2014+i)})
   .call(drag)
+
   }
 
 nodes.slice(1).forEach(function(d){
@@ -134,9 +139,7 @@ nodes.slice(1).forEach(function(d){
 
 })
 
-var zoomfunction=function(){
-  g.attr("transform", d3.event.transform)
-}
+
 
 
 

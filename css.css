@@ -17,5 +17,12 @@ svg{
 
 .explain{
   font-family: 'Acme', sans-serif;
-  font-size: 10px;
+  font-size: 13px;
+}
+
+#infowindow{
+  border:solid;
+  position: absolute;
+  top: 0px;
+  left: 870px;
 }

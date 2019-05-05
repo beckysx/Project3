@@ -25,20 +25,20 @@ var title=d3.select("body").append("svg")
 
 title.append("text")
 .attr('x', '20')
-.attr('y', '40')
+.attr('y', '90')
 .text("Top-Sellings")
 .attr('class', 'title')
 
 title.append("text")
 .attr('x', '300')
-.attr('y', '170')
+.attr('y', '220')
 .text("VS")
 .style('font-size', 190)
 .style('font-family', 'Abril Fatface')
 
 title.append("text")
 .attr('x', '580')
-.attr('y', '170')
+.attr('y', '220')
 .text("Oscar Nominees")
 .attr('class', 'title')
 
@@ -68,7 +68,7 @@ Promise.all([o14,t14,o15,t15,o16,t16,o17,t17,o18,t18])
 }
   }
 
-  var screen={width:950,height:600};
+  var screen={width:850,height:700};
   var margin = {top: 50, right: 50, bottom: 50, left: 500};
   var w = screen.width - margin.left - margin.right;
   var h = screen.height - margin.top - margin.bottom;
@@ -80,7 +80,7 @@ Promise.all([o14,t14,o15,t15,o16,t16,o17,t17,o18,t18])
 
     // circle packing
     var pack=d3.pack()
-    .size([screen.width,screen.height])
+    .size([950,700])
     .padding(2)
     var root=d3.hierarchy(dataset)
                 .sum(function(d){
@@ -158,32 +158,64 @@ Promise.all([o14,t14,o15,t15,o16,t16,o17,t17,o18,t18])
     .attr('offset', "100%")
     .attr('stop-color', "#000000")
 
+    // filmcolor legend
     var filmcolor=svg.append("g").attr('id', 'filmcolor')
     filmcolor.append("text")
-    .attr('x', '0')
-    .attr('y', '20')
+    .attr('x', '10')
+    .attr('y', '25')
     .text("Single Movie Rating")
     .attr('class', 'explain')
 
     filmcolor.append("rect")
-        .attr('x',100 )
-        .attr('y',5 )
+        .attr('x',130 )
+        .attr('y',10 )
         .attr('width', 100)
         .attr('height', 20)
         .style('fill', 'url(#lowGradient')
     filmcolor.append("rect")
-        .attr('x',200 )
-        .attr('y',5 )
+        .attr('x',230 )
+        .attr('y',10 )
         .attr('width', 100)
         .attr('height', 20)
         .style('fill', 'url(#highGradient')
-    svg.append("g").attr('id', 'groupcolor')
-    .append("rect")
-        .attr('x',250 )
-        .attr('y',5 )
+
+    var filmColorScale=d3.scaleLinear()
+        .domain([5.5, 8.5])
+        .range([130, 330]);
+
+    var filmColorAxis=d3.axisBottom(filmColorScale)
+                      .tickSize(2)
+                      .ticks(5)
+
+    svg.append("g").attr('id', 'filmcolorAxis').call(filmColorAxis)
+    .attr('transform', 'translate(' + 0 + ',' + 32 + ')')
+
+
+    // groupcolor legend
+    var groupcolor=svg.append("g").attr('id', 'groupcolor')
+
+    groupcolor.append("text")
+    .attr('x', 360)
+    .attr('y', 25)
+    .text("Group Average Rating")
+    .attr('class', 'explain')
+
+    groupcolor.append("rect")
+        .attr('x',510 )
+        .attr('y',10 )
         .attr('width', 200)
         .attr('height', 20)
-        .style('fill', 'url(#groupGradient')
+        .style('fill', 'url(#groupGradient)')
+
+    var groupColorScale=d3.scaleLinear()
+        .domain([6.9, 7.7])
+        .range([510, 710]);
+
+    var groupColorAxis=d3.axisBottom(groupColorScale)
+                      .tickSize(2)
+
+    svg.append("g").attr('id', 'groupcolorAxis').call(groupColorAxis)
+    .attr('transform', 'translate(' + 0 + ',' + 32 + ')')
 
     // zoom and drag
 
@@ -212,8 +244,8 @@ Promise.all([o14,t14,o15,t15,o16,t16,o17,t17,o18,t18])
     nodes.slice(1).forEach(function(d){
         d3.select("#y"+d.data.year)
         .append('circle')
-        .attr('cx', d.x-200)
-        .attr('cy', d.y+20)
+        .attr('cx', d.x-130)
+        .attr('cy', d.y+50)
         .attr('r',d.r)
         .style('fill', function(){
           if (d.height==2){return "gray"}
@@ -252,9 +284,25 @@ Promise.all([o14,t14,o15,t15,o16,t16,o17,t17,o18,t18])
         .on('mouseout', function(){
           var a=d3.select(this).attr('stroke', 'none')
       })
+      })
 
 
-})
+    // information part
+    var infowindow=d3.select("body").append("svg")
+    .attr('id', 'infowindow')
+    .attr('width', 450)
+    .attr('height', 1000)
+
+    infowindow.append("svg:image")
+    .attr('xlink:href', function(){return "d1.png"})
+    .attr('x', 50)
+    .attr('y', 0)
+    .attr('width', 200)
+    .attr('height', 200)
+
+
+
+
 
 
 

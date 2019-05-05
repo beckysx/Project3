@@ -1,3 +1,21 @@
+@import url('https://fonts.googleapis.com/css?family=Abril+Fatface|Acme');
+/*font-family: 'Abril Fatface', cursive;
+font-family: 'Acme', sans-serif;*/
+
+svg{
+  display: block;
+}
+
+.title{
+  font-family: 'Abril Fatface', cursive;
+  font-size: 45px;
+}
+
 #window{
   border:solid;
+}
+
+.explain{
+  font-family: 'Acme', sans-serif;
+  font-size: 10px;
 }

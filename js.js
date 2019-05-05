@@ -245,7 +245,7 @@ Promise.all([o14,t14,o15,t15,o16,t16,o17,t17,o18,t18])
         d3.select("#y"+d.data.year)
         .append('circle')
         .attr('cx', d.x-130)
-        .attr('cy', d.y+50)
+        .attr('cy', d.y+40)
         .attr('r',d.r)
         .style('fill', function(){
           if (d.height==2){return "gray"}
@@ -290,15 +290,44 @@ Promise.all([o14,t14,o15,t15,o16,t16,o17,t17,o18,t18])
     // information part
     var infowindow=d3.select("body").append("svg")
     .attr('id', 'infowindow')
-    .attr('width', 450)
+    .attr('width', 460)
     .attr('height', 1000)
 
     infowindow.append("svg:image")
     .attr('xlink:href', function(){return "d1.png"})
-    .attr('x', 50)
+    .attr('x', 120)
     .attr('y', 0)
-    .attr('width', 200)
-    .attr('height', 200)
+    .attr('width', 250)
+    .attr('height', 250)
+
+    infowindow.append("rect")
+        .attr('x', 0)
+        .attr('y', 250)
+        .attr('width', 460)
+        .attr('height',750)
+        .style('fill', 'black');
+
+    for (i=0;i<30;i++){
+      infowindow.append("rect")
+          .attr('x', 10)
+          .attr('y', function(){
+            return 260+i*25
+          })
+          .attr('width', 10)
+          .attr('height',10)
+          .style('fill', 'white')
+    }
+
+    for (i=0;i<30;i++){
+      infowindow.append("rect")
+          .attr('x', 440)
+          .attr('y', function(){
+            return 260+i*25
+          })
+          .attr('width', 10)
+          .attr('height',10)
+          .style('fill', 'white')
+    }
 
 
 

@@ -379,7 +379,7 @@ Promise.all([o14,t14,o15,t15,o16,t16,o17,t17,o18,t18])
     // Actrual Information
     nodes.slice(6).forEach(function(d,i){
       if(d.height==1){
-        var baseline=260+i*210
+        var baseline=260+i*260
         var group=info.append("g").attr('id', function(){
           return "g"+d.data.year+d.data.name
         })
@@ -389,19 +389,19 @@ Promise.all([o14,t14,o15,t15,o16,t16,o17,t17,o18,t18])
             .attr('x',30 )
             .attr('y',baseline)
             .attr('width', width)
-            .attr('height', 200)
+            .attr('height', 250)
             .attr('fill', 'white')
         // info title
         group.append("text")
-        .attr('x',40)
-        .attr('y', baseline+20)
+        .attr('x',60)
+        .attr('y', baseline+30)
         .text('Group Information')
         .attr('class', 'infoTitle')
         // more details
             //year
             group.append("text")
-            .attr('x', 60)
-            .attr('y', baseline+50)
+            .attr('x', 80)
+            .attr('y', baseline+60)
             .text(function(){
               var year=d.data.year
               return "Year: "+year
@@ -409,8 +409,8 @@ Promise.all([o14,t14,o15,t15,o16,t16,o17,t17,o18,t18])
             .attr('class', 'detail')
             // group type
             group.append("text")
-            .attr('x', 60)
-            .attr('y', baseline+75)
+            .attr('x', 80)
+            .attr('y', baseline+90)
             .text(function(){
               var type=d.data.name
               if(type=="top"){return "Group Type: Top-Sellings"}
@@ -419,8 +419,8 @@ Promise.all([o14,t14,o15,t15,o16,t16,o17,t17,o18,t18])
             .attr('class', 'detail')
             //Average tickets
             group.append("text")
-            .attr('x', 60)
-            .attr('y', baseline+100)
+            .attr('x', 80)
+            .attr('y', baseline+120)
             .text(function(){
               var ticketSum=d.data.ticket
               var movienum=d.children.length
@@ -430,8 +430,8 @@ Promise.all([o14,t14,o15,t15,o16,t16,o17,t17,o18,t18])
             .attr('class', 'detail')
             //Average Rating
             group.append("text")
-            .attr('x', 60)
-            .attr('y', baseline+125)
+            .attr('x', 80)
+            .attr('y', baseline+150)
             .text(function(){
               var rateArray=d.children.map(function(a){return parseInt(a.data.rate)})
               var rateSum=rateArray.reduce(function(a,b){
@@ -444,7 +444,7 @@ Promise.all([o14,t14,o15,t15,o16,t16,o17,t17,o18,t18])
 
       }
       else{
-        var baseline=260+i*210
+        var baseline=260+i*260
         var group=info.append("g").attr('id', function(){
           var a=d.data.name.replace(/\.*\(*\)*\:*\-*\s*/g,"")
           return "g"+a+d.data.type
@@ -452,24 +452,24 @@ Promise.all([o14,t14,o15,t15,o16,t16,o17,t17,o18,t18])
 
         // info background
         group.append("rect")
-            .attr('x',30 )
+            .attr('x',60 )
             .attr('y',baseline)
             .attr('width', width)
-            .attr('height', 200)
+            .attr('height', 250)
             .attr('fill', 'white')
 
         // info title
         group.append("text")
-        .attr('x',40)
-        .attr('y', baseline+20)
+        .attr('x',80)
+        .attr('y', baseline+30)
         .text('Movie Information')
         .attr('class', 'infoTitle')
 
         // more details
             //year
             group.append("text")
-            .attr('x', 60)
-            .attr('y', baseline+50)
+            .attr('x', 80)
+            .attr('y', baseline+60)
             .text(function(){
               var year=d.data.year
               return "Year: "+year
@@ -478,8 +478,8 @@ Promise.all([o14,t14,o15,t15,o16,t16,o17,t17,o18,t18])
 
             // group type
             group.append("text")
-            .attr('x', 60)
-            .attr('y', baseline+75)
+            .attr('x', 80)
+            .attr('y', baseline+90)
             .text(function(){
               var type=d.data.type
               var rank=d.data.rank
@@ -493,8 +493,8 @@ Promise.all([o14,t14,o15,t15,o16,t16,o17,t17,o18,t18])
 
             //Name
             group.append("text")
-            .attr('x', 60)
-            .attr('y', baseline+100)
+            .attr('x', 80)
+            .attr('y', baseline+120)
             .text(function(){
               var name=d.data.name
               return "Name: "+ name
@@ -503,8 +503,8 @@ Promise.all([o14,t14,o15,t15,o16,t16,o17,t17,o18,t18])
 
             //tickets
             group.append("text")
-            .attr('x', 60)
-            .attr('y', baseline+125)
+            .attr('x', 80)
+            .attr('y', baseline+150)
             .text(function(){
               var ticket=d.data.ticket
               return "Tickets Sold: "+ ticket
@@ -512,8 +512,8 @@ Promise.all([o14,t14,o15,t15,o16,t16,o17,t17,o18,t18])
             .attr('class', 'detail')
             //Rating
             group.append("text")
-            .attr('x', 60)
-            .attr('y', baseline+150)
+            .attr('x', 80)
+            .attr('y', baseline+180)
             .text(function(){
               var rate=d.data.rate
               return "Rating: "+ rate+"/10"
@@ -521,8 +521,8 @@ Promise.all([o14,t14,o15,t15,o16,t16,o17,t17,o18,t18])
             .attr('class', 'detail')
             //Genre
             group.append("text")
-            .attr('x', 60)
-            .attr('y', baseline+175)
+            .attr('x', 80)
+            .attr('y', baseline+220)
             .text(function(){
               var genre=d.data.genre
               return "Genre: "+genre

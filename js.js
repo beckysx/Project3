@@ -365,7 +365,12 @@ Promise.all([o14,t14,o15,t15,o16,t16,o17,t17,o18,t18])
           })
           .attr('width', 10)
           .attr('height',10)
-          .style('fill', 'white')}
+          .style('fill', function(){
+            if(i<11){
+              return '#FF9811'
+            }
+            else{return "white"}
+          })}
     for (i=0;i<30;i++){
       infowindow.append("rect")
           .attr('x', 440)
@@ -374,7 +379,12 @@ Promise.all([o14,t14,o15,t15,o16,t16,o17,t17,o18,t18])
           })
           .attr('width', 10)
           .attr('height',10)
-          .style('fill', 'white')}
+          .style('fill', function(){
+            if(i<11){
+              return '#FF9811'
+            }
+            else{return "white"}
+          })}
 
     // Actrual Information
     nodes.slice(6).forEach(function(d,i){
@@ -452,7 +462,7 @@ Promise.all([o14,t14,o15,t15,o16,t16,o17,t17,o18,t18])
 
         // info background
         group.append("rect")
-            .attr('x',60 )
+            .attr('x',30 )
             .attr('y',baseline)
             .attr('width', width)
             .attr('height', 250)

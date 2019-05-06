@@ -13,7 +13,7 @@ svg{
 }
 
 #window{
-  border:solid;
+  border:none;
 }
 
 .explain{
@@ -22,7 +22,7 @@ svg{
 }
 
 #info,#infowindow{
-  border:solid;
+  border:none;
   position: absolute;
   top: 10px;
   left: 860px;

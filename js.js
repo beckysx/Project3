@@ -52,7 +52,7 @@ Promise.all([o14,t14,o15,t15,o16,t16,o17,t17,o18,t18])
     var tsum=0
     d[i].forEach(function(a){
       tsum=tsum+parseInt(a.TicketsSold)
-        var ob={"name":a.Name,"ticket":parseInt(a.TicketsSold),"rate":a.Rate,"genre":a.Genre,"year":parseInt(a.Year),"type":a.Type}
+        var ob={"rank":a.ID,"name":a.Name,"ticket":parseInt(a.TicketsSold),"rate":a.Rate,"genre":a.Genre,"year":parseInt(a.Year),"type":a.Type}
         dataset.children[(i-1)/2].children[0].children.push(ob)})
     dataset.children[(i-1)/2].children[0].ticket=tsum
     }
@@ -62,7 +62,7 @@ Promise.all([o14,t14,o15,t15,o16,t16,o17,t17,o18,t18])
     var tsum=0
     d[i].forEach(function(a){
       tsum=tsum+parseInt(a.TicketsSold)
-        var ob={"name":a.Name,"ticket":parseInt(a.TicketsSold),"rate":a.Rate,"genre":a.Genre,"year":parseInt(a.Year),"type":a.Type}
+        var ob={"rank":a.ID,"name":a.Name,"ticket":parseInt(a.TicketsSold),"rate":a.Rate,"genre":a.Genre,"year":parseInt(a.Year),"type":a.Type}
         dataset.children[i/2].children[1].children.push(ob)})
     dataset.children[i/2].children[1].ticket=tsum
 }
@@ -267,7 +267,6 @@ Promise.all([o14,t14,o15,t15,o16,t16,o17,t17,o18,t18])
               return a+b
             })
             var rateAve=rateSum/rateArray.length
-            console.log(rateAve)
             return groupScale(rateAve)
           }
           else if (d.height==0){return 1}
@@ -293,6 +292,23 @@ Promise.all([o14,t14,o15,t15,o16,t16,o17,t17,o18,t18])
     .attr('width', 460)
     .attr('height', 1000)
 
+    var infoscreen={width:460,height:1000};
+    var m = {left: 30, right: 30};
+    var width = infoscreen.width - m.left - m.right;
+
+    var info=d3.select("body").append("svg")
+    .attr('id', 'info')
+    .attr('width', infoscreen.width)
+    .attr('height', infoscreen.height)
+
+    info.append("clipPath")
+    .attr('id', 'cover')
+    .append('rect')
+    .attr('x', 0)
+    .attr('y', 0)
+    .attr('width', infoscreen.width)
+    .attr('height', 260)
+
     infowindow.append("svg:image")
     .attr('xlink:href', function(){return "d1.png"})
     .attr('x', 120)
@@ -300,6 +316,7 @@ Promise.all([o14,t14,o15,t15,o16,t16,o17,t17,o18,t18])
     .attr('width', 250)
     .attr('height', 250)
 
+    // decoration
     infowindow.append("rect")
         .attr('x', 0)
         .attr('y', 250)
@@ -315,9 +332,7 @@ Promise.all([o14,t14,o15,t15,o16,t16,o17,t17,o18,t18])
           })
           .attr('width', 10)
           .attr('height',10)
-          .style('fill', 'white')
-    }
-
+          .style('fill', 'white')}
     for (i=0;i<30;i++){
       infowindow.append("rect")
           .attr('x', 440)
@@ -326,8 +341,157 @@ Promise.all([o14,t14,o15,t15,o16,t16,o17,t17,o18,t18])
           })
           .attr('width', 10)
           .attr('height',10)
-          .style('fill', 'white')
-    }
+          .style('fill', 'white')}
+
+    // Actrual Information
+    nodes.slice(6).forEach(function(d,i){
+      if(d.height==1){
+        var baseline=260+i*210
+
+        // info background
+        info.append("rect")
+            .attr('x',30 )
+            .attr('y',baseline)
+            .attr('width', width)
+            .attr('height', 200)
+            .attr('fill', 'white')
+        // info title
+        info.append("text")
+        .attr('x',40)
+        .attr('y', baseline+20)
+        .text('Group Information')
+        .attr('class', 'infoTitle')
+        // more details
+            //year
+            info.append("text")
+            .attr('x', 60)
+            .attr('y', baseline+50)
+            .text(function(){
+              var year=d.data.year
+              return "Year: "+year
+            })
+            .attr('class', 'detail')
+            // group type
+            info.append("text")
+            .attr('x', 60)
+            .attr('y', baseline+75)
+            .text(function(){
+              var type=d.data.name
+              if(type=="top"){return "Group Type: Top-Sellings"}
+              else{return "Group Type: Oscar Nominees"}
+            })
+            .attr('class', 'detail')
+            //Average tickets
+            info.append("text")
+            .attr('x', 60)
+            .attr('y', baseline+100)
+            .text(function(){
+              var ticketSum=d.data.ticket
+              var movienum=d.children.length
+              var ticketAve=Math.round(ticketSum/movienum)
+              return "Average Tickets Sold: "+ ticketAve
+            })
+            .attr('class', 'detail')
+            //Average Rating
+            info.append("text")
+            .attr('x', 60)
+            .attr('y', baseline+125)
+            .text(function(){
+              var rateArray=d.children.map(function(a){return parseInt(a.data.rate)})
+              var rateSum=rateArray.reduce(function(a,b){
+                return a+b
+              })
+              var rateAve=(rateSum/rateArray.length).toFixed(2)
+              return "Average Movie Rating: "+ rateAve
+            })
+            .attr('class', 'detail')
+
+      }
+      if (d.height!=1){
+        var baseline=260+i*210
+
+        // info background
+        info.append("rect")
+            .attr('x',30 )
+            .attr('y',baseline)
+            .attr('width', width)
+            .attr('height', 200)
+
+        // info title
+        info.append("text")
+        .attr('x',40)
+        .attr('y', baseline+20)
+        .text('Movie Information')
+        .attr('class', 'infoTitle')
+
+        // more details
+            //year
+            info.append("text")
+            .attr('x', 60)
+            .attr('y', baseline+50)
+            .text(function(){
+              var year=d.data.year
+              return "Year: "+year
+            })
+            .attr('class', 'detail')
+
+            // group type
+            info.append("text")
+            .attr('x', 60)
+            .attr('y', baseline+75)
+            .text(function(){
+              var type=d.data.type
+              var rank=d.data.rank
+              if(type=="top"){return "Top-Sellings"}
+              else if (type=="oscar"&&rank=="1") {
+                return "Best Picture Winner!"
+              }
+              else{return "Best Picture Nominees"}
+            })
+            .attr('class', 'detail')
+
+            //Name
+            info.append("text")
+            .attr('x', 60)
+            .attr('y', baseline+100)
+            .text(function(){
+              var name=d.data.name
+              return "Name: "+ name
+            })
+            .attr('class', 'detail')
+
+            //tickets
+            info.append("text")
+            .attr('x', 60)
+            .attr('y', baseline+125)
+            .text(function(){
+              var ticket=d.data.ticket
+              return "Tickets Sold: "+ ticket
+            })
+            .attr('class', 'detail')
+            //Rating
+            info.append("text")
+            .attr('x', 60)
+            .attr('y', baseline+125)
+            .text(function(){
+              var rate=d.data.rate
+              return "Rating: "+ rate+"/10"
+            })
+            .attr('class', 'detail')
+            //Genre
+            info.append("text")
+            .attr('x', 60)
+            .attr('y', baseline+150)
+            .text(function(){
+              var genre=d.data.genre
+              return "Genre: "+genre
+            })
+            .attr('class', 'detail')
+
+
+      }
+
+    })
 
 
 

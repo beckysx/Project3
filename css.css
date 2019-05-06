@@ -1,6 +1,7 @@
-@import url('https://fonts.googleapis.com/css?family=Abril+Fatface|Acme');
+@import url('https://fonts.googleapis.com/css?family=Abril+Fatface|Acme|Josefin+Slab');
 /*font-family: 'Abril Fatface', cursive;
-font-family: 'Acme', sans-serif;*/
+font-family: 'Acme', sans-serif;
+font-family: 'Josefin Slab', serif;*/
 
 svg{
   display: block;
@@ -20,9 +21,19 @@ svg{
   font-size: 13px;
 }
 
-#infowindow{
+#info,#infowindow{
   border:solid;
   position: absolute;
-  top: 0px;
+  top: 10px;
   left: 860px;
+}
+
+.infoTitle{
+  font-family: 'Acme', sans-serif;
+  font-size: 17px;
+}
+
+.detail{
+  font-family: 'Josefin Slab', serif;
+  font-size: 15px;
 }

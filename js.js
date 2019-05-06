@@ -279,10 +279,14 @@ Promise.all([o14,t14,o15,t15,o16,t16,o17,t17,o18,t18])
         })
         .attr('id', function(){
           if(d.height==1){
-            return 'circle'+d.data.year
+            return 'circle'+d.data.year+d.data.name
           }
           else if (d.height==0) {
-            return 'circle'+d.data.name.replace(/\s*/g,"")
+            var a=d.data.name.replace(/\.*\(*\)*\:*\-*\s*/g,"")
+            return 'circle'+a+d.data.type
+          }
+          else{
+            return "big"+d.data.year
           }
         })
         .attr('class', 'y'+d.data.year)
@@ -290,6 +294,19 @@ Promise.all([o14,t14,o15,t15,o16,t16,o17,t17,o18,t18])
           var a=d3.select(this)
           .attr('stroke', '#FF9811')
           .attr('stroke-width', 2)
+          var check=d3.select(this).attr('id')
+          if(check.slice(0,3)!="big"){
+            var b=d3.select(this).attr('id').replace("circle","")
+            var group=d3.select('#g'+b)
+            console.log('#g'+b)
+            var y=group.select("rect").attr('y')
+            var dy=260-y
+            d3.select("#info").selectAll("g")
+            .transition()
+            .duration(1000)
+            .ease(d3.easeElastic)
+            .attr('transform', 'translate(' + 0 + ',' + dy + ')')
+          }
 
         })
         .on('mouseout', function(){
@@ -315,14 +332,15 @@ Promise.all([o14,t14,o15,t15,o16,t16,o17,t17,o18,t18])
     .attr('id', 'info')
     .attr('width', infoscreen.width)
     .attr('height', infoscreen.height)
+    .attr('clip-path', 'url(#cover)')
 
     info.append("clipPath")
     .attr('id', 'cover')
     .append('rect')
-    .attr('x', 0)
-    .attr('y', 0)
-    .attr('width', infoscreen.width)
-    .attr('height', 260)
+    .attr('x', 40)
+    .attr('y', 260)
+    .attr('width', width)
+    .attr('height',infoscreen.height)
 
     infowindow.append("svg:image")
     .attr('xlink:href', function(){return "d1.png"})
@@ -363,7 +381,7 @@ Promise.all([o14,t14,o15,t15,o16,t16,o17,t17,o18,t18])
       if(d.height==1){
         var baseline=260+i*210
         var group=info.append("g").attr('id', function(){
-          return "g"+d.data.year
+          return "g"+d.data.year+d.data.name
         })
 
         // info background
@@ -428,7 +446,8 @@ Promise.all([o14,t14,o15,t15,o16,t16,o17,t17,o18,t18])
       else{
         var baseline=260+i*210
         var group=info.append("g").attr('id', function(){
-          return "g"+d.data.name.replace(/\s*/g,"")
+          var a=d.data.name.replace(/\.*\(*\)*\:*\-*\s*/g,"")
+          return "g"+a+d.data.type
         })
 
         // info background
@@ -437,6 +456,7 @@ Promise.all([o14,t14,o15,t15,o16,t16,o17,t17,o18,t18])
             .attr('y',baseline)
             .attr('width', width)
             .attr('height', 200)
+            .attr('fill', 'white')
 
         // info title
         group.append("text")
@@ -493,7 +513,7 @@ Promise.all([o14,t14,o15,t15,o16,t16,o17,t17,o18,t18])
             //Rating
             group.append("text")
             .attr('x', 60)
-            .attr('y', baseline+125)
+            .attr('y', baseline+150)
             .text(function(){
               var rate=d.data.rate
               return "Rating: "+ rate+"/10"
@@ -502,7 +522,7 @@ Promise.all([o14,t14,o15,t15,o16,t16,o17,t17,o18,t18])
             //Genre
             group.append("text")
             .attr('x', 60)
-            .attr('y', baseline+150)
+            .attr('y', baseline+175)
             .text(function(){
               var genre=d.data.genre
               return "Genre: "+genre
@@ -512,7 +532,6 @@ Promise.all([o14,t14,o15,t15,o16,t16,o17,t17,o18,t18])
 
       }
     })
-
 
 
 

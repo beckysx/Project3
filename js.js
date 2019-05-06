@@ -543,6 +543,66 @@ Promise.all([o14,t14,o15,t15,o16,t16,o17,t17,o18,t18])
       }
     })
 
+    // Scatterplot part
+    var year=2014
+    var scatterscreen={width:1350,height:600}
+    var smargin = {top: 200, right: 10, bottom: 50, left: 10},
+        swidth = scatterscreen.width - margin.left - margin.right,
+        sheight = scatterscreen.height - margin.top - margin.bottom;
+
+    var scatterSvg=d3.select("body").append("svg")
+    .attr('height', scatterscreen.height)
+    .attr('width', scatterscreen.width)
+    .attr('id', 'scatterSvg')
+
+    for(i=0;i<5;i++){
+      //click button
+      scatterSvg.append("svg:image")
+      .attr('xlink:href', function(){
+        if(i==0){return "close.png"}
+        else{return "open.png"}
+      })
+      .attr('x', function(){return smargin.left+i*170})
+      .attr('y', 0)
+      .attr('width', 120)
+      .attr('height', 120)
+      .attr('id', function(){return "board"+(2014+i)})
+      .on('mouseover', function(){
+        d3.select(this)
+        .attr('xlink:href', "close.png")
+        .attr('y', 8)
+      })
+      .on('mouseout',function(){
+        d3.select(this)
+        .attr('xlink:href', "open.png")
+        .attr('y', 0)
+      })
+      .on('click',function(){
+        // former button
+        d3.select("#board"+year)
+        .attr('xlink:href', "open.png")
+        .attr('y', 0)
+        //new button change
+        d3.select(this)
+        .attr('xlink:href', "close.png")
+        .attr('y', 8)
+        var clickedid=d3.select(this).attr('id')
+        var clickedyear=parseInt(clickedid.slice(5))
+        var yeari=year
+        year=clickedyear
+
+      } )
+
+      // text on board
+      scatterSvg.append("text")
+      .attr('x', function(){return smargin.left+40+i*170})
+      .attr('y', 85)
+      .text(function(){return 2014+i})
+      .attr('class', 'boardYear')
+    }
+
+
+
 
 
 

@@ -27,8 +27,8 @@ svg{
 #info,#infowindow{
   border:none;
   position: absolute;
-  top: 10px;
-  left: 860px;
+  top: 70px;
+  left: 900px;
 }
 
 .infoTitle{
@@ -56,4 +56,9 @@ svg{
 .yaxisText{
   font-family: 'Josefin Sans', sans-serif;
   font-size: 13px;
+  fill:white;
+}
+#decorationSvg{
+  position: absolute;
+  top: 1125px;
 }

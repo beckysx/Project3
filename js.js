@@ -17,18 +17,49 @@ var t17=d3.csv("2017Top.csv")
 var o18=d3.csv("2018Oscar.csv")
 var t18=d3.csv("2018Top.csv")
 
+
+
 // title
 var title=d3.select("body").append("svg")
 .attr('id', 'title')
-.attr('height', 250)
-.attr('width', 1000)
+.attr('height', 300)
+.attr('width', 1300)
 
-title.append("rect")
-    .attr('x',0)
-    .attr('y',25)
-    .attr('width', 950)
-    .attr('height', 225)
-    .style('fill', 'white');
+var bgGradient=
+title.append("defs").append("linearGradient")
+.attr('id', 'bgGradient')
+.attr('x1', "0%")
+.attr('y1', "100%")
+.attr('x2', "0%")
+.attr('y2', "0%")
+
+bgGradient.append("stop")
+.attr('offset', "0%")
+.attr('stop-color', "white")
+
+bgGradient.append("stop")
+.attr('offset', "100%")
+.attr('stop-color', "#6F6A5F")
+
+title.append("ellipse")
+            .attr("cx", 150)
+            .attr("cy", 75)
+            .attr("rx", 200)
+            .attr("ry", 60)
+            .style('fill', 'url(#bgGradient)')
+
+title.append("ellipse")
+            .attr("cx", 720)
+            .attr("cy", 205)
+            .attr("rx", 210)
+            .attr("ry", 80)
+            .style('fill', 'url(#bgGradient)')
+
+title.append("circle")
+            .attr("cx", 410)
+            .attr("cy", 150)
+            .attr('r', 130)
+            .style('fill', 'url(#bgGradient)')
 
 title.append("text")
 .attr('x', '20')
@@ -211,6 +242,14 @@ Promise.all([o14,t14,o15,t15,o16,t16,o17,t17,o18,t18])
 
     // filmcolor legend
     var filmcolor=svg.append("g").attr('id', 'filmcolor')
+
+    filmcolor.append("rect")
+        .attr('x',0 )
+        .attr('y',5)
+        .attr('width', 800)
+        .attr('height', 45)
+        .attr('fill', 'white')
+
     filmcolor.append("text")
     .attr('x', '10')
     .attr('y', '25')
@@ -300,7 +339,7 @@ Promise.all([o14,t14,o15,t15,o16,t16,o17,t17,o18,t18])
         .attr('cy', d.y+20)
         .attr('r',d.r)
         .style('fill', function(){
-          if (d.height==2){return "gray"}
+          if (d.height==2){return "#BFBDC1"}
           else if (d.height==1){return "black"}
           else if (d.height==0){
             if (d.data.rate<=7.5){
@@ -312,7 +351,7 @@ Promise.all([o14,t14,o15,t15,o16,t16,o17,t17,o18,t18])
             }
         })
         .attr('fill-opacity', function(){
-          if (d.height==2){return 0.3}
+          if (d.height==2){return 1}
           else if (d.height==1){
             var rateArray=d.children.map(function(a){return parseInt(a.data.rate)})
             var rateSum=rateArray.reduce(function(a,b){
@@ -372,6 +411,27 @@ Promise.all([o14,t14,o15,t15,o16,t16,o17,t17,o18,t18])
     .attr('width', 460)
     .attr('height', 1000)
 
+    var infoGradient=infowindow.append("defs").append("linearGradient")
+    .attr('id', 'infoGradient')
+    .attr('x1', "0%")
+    .attr('y1', "100%")
+    .attr('x2', "0%")
+    .attr('y2', "0%")
+
+    infoGradient.append("stop")
+    .attr('offset', "0%")
+    .attr('stop-color', "white")
+
+    infoGradient.append("stop")
+    .attr('offset', "100%")
+    .attr('stop-color', "black")
+
+    infowindow.append("circle")
+              .attr("cx", 240)
+              .attr("cy", 80)
+              .attr('r', 200)
+              .style('fill', 'url(#infoGradient)')
+
     var infoscreen={width:460,height:1000};
     var m = {left: 30, right: 30};
     var width = infoscreen.width - m.left - m.right;
@@ -389,13 +449,6 @@ Promise.all([o14,t14,o15,t15,o16,t16,o17,t17,o18,t18])
     .attr('y', 260)
     .attr('width', width)
     .attr('height',infoscreen.height)
-
-    infowindow.append('rect')
-        .attr('x',120 )
-        .attr('y',0 )
-        .attr('width', 250)
-        .attr('height', 250)
-        .style('fill', 'white');
 
     infowindow.append("svg:image")
     .attr('xlink:href', function(){return "d1.png"})
@@ -605,6 +658,36 @@ Promise.all([o14,t14,o15,t15,o16,t16,o17,t17,o18,t18])
     var swidth = scatterscreen.width - sm.left - sm.right
     var sheight = scatterscreen.height - sm.top - sm.bottom;
 
+    var decorationSvg=d3.select("body").append("svg")
+    .attr('height', 170)
+    .attr('width', 2000)
+    .attr('id', 'decorationSvg')
+
+    var decoGradient=
+    decorationSvg.append("defs").append("linearGradient")
+    .attr('id', 'decoGradient')
+    .attr('x1', "0%")
+    .attr('y1', "70%")
+    .attr('x2', "0%")
+    .attr('y2', "0%")
+
+    decoGradient.append("stop")
+    .attr('offset', "0%")
+    .attr('stop-color', "white")
+
+    decoGradient.append("stop")
+    .attr('offset', "100%")
+    .attr('stop-color', "black")
+
+
+    for (i=0;i<6;i++){
+      decorationSvg.append("circle")
+          .attr('cx',function(){return sm.left+60+i*170} )
+          .attr('cy', 65)
+          .attr('r', 65)
+          .style('fill', 'url(#decoGradient)');
+    }
+
     var scatterSvg=d3.select("body").append("svg")
     .attr('height', scatterscreen.height)
     .attr('width', scatterscreen.width)
@@ -626,9 +709,7 @@ Promise.all([o14,t14,o15,t15,o16,t16,o17,t17,o18,t18])
           .attr('y2',function(){return 150+i*60})
           .attr('stroke', 'grey')
           .attr('stroke-width', 0.5)
-          .attr('stroke-dasharray', '10,5')
-
-    }
+          .attr('stroke-dasharray', '10,5')}
 
 
 
@@ -642,7 +723,7 @@ Promise.all([o14,t14,o15,t15,o16,t16,o17,t17,o18,t18])
           })
           .attr('x', function(){return sm.left+i*170})
           .attr('y', function(){
-            if(i==5){return 8}
+            if(i==5){return 6}
             else{return 0}
           })
           .attr('width', 120)
@@ -657,12 +738,12 @@ Promise.all([o14,t14,o15,t15,o16,t16,o17,t17,o18,t18])
             if (clickedyear!=year.toString()){
               d3.select(this)
               .attr('xlink:href', "close.png")
-              .attr('y', 8)
+              .attr('y', 6)
             }
             else if (clickedyear=="all") {
               d3.select(this)
               .attr('xlink:href', "close.png")
-              .attr('y', 8)
+              .attr('y', 6)
             }
 
 
@@ -685,7 +766,7 @@ Promise.all([o14,t14,o15,t15,o16,t16,o17,t17,o18,t18])
             //new button change
             d3.select(this)
             .attr('xlink:href', "close.png")
-            .attr('y', 8)
+            .attr('y', 6)
             var clickedid=d3.select(this).attr('id')
             var clickedyear=clickedid.slice(5)
             var circleNum=d3.select("#scatterSvg")

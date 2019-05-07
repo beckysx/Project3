@@ -25,64 +25,32 @@ var title=d3.select("body").append("svg")
 .attr('height', 300)
 .attr('width', 1300)
 
-var bgGradient=
-title.append("defs").append("linearGradient")
-.attr('id', 'bgGradient')
-.attr('x1', "0%")
-.attr('y1', "100%")
-.attr('x2', "0%")
-.attr('y2', "0%")
-
-bgGradient.append("stop")
-.attr('offset', "0%")
-.attr('stop-color', "white")
-
-bgGradient.append("stop")
-.attr('offset', "100%")
-.attr('stop-color', "#6F6A5F")
-
-title.append("ellipse")
-            .attr("cx", 150)
-            .attr("cy", 75)
-            .attr("rx", 200)
-            .attr("ry", 60)
-            .style('fill', 'url(#bgGradient)')
-
-title.append("ellipse")
-            .attr("cx", 720)
-            .attr("cy", 205)
-            .attr("rx", 210)
-            .attr("ry", 80)
-            .style('fill', 'url(#bgGradient)')
-
-title.append("circle")
-            .attr("cx", 410)
-            .attr("cy", 150)
-            .attr('r', 130)
-            .style('fill', 'url(#bgGradient)')
 
 title.append("text")
-.attr('x', '20')
-.attr('y', '90')
+.attr('x', '10')
+.attr('y', '80')
 .text("Top-Sellings")
 .attr('class', 'title')
 
 title.append("text")
-.attr('x', '300')
-.attr('y', '220')
+.attr('x', '230')
+.attr('y', '250')
 .text("VS")
 .style('font-size', 190)
 .style('font-family', 'Abril Fatface')
+.attr('stroke', 'white')
+.attr('stroke-width', 1)
 
 title.append("text")
-.attr('x', '580')
-.attr('y', '220')
+.attr('x', '480')
+.attr('y', '250')
 .text("Oscar Nominees")
 .attr('class', 'title')
 
 var getScatterData=function(dataset,year){
   var newDataset=[]
   dataset.forEach(function(d){
+    console.log(d)
     if (d.data.year==year){
       var movieGenre=d.data.genre.split(",")
       var repetition=movieGenre.length
@@ -370,7 +338,7 @@ Promise.all([o14,t14,o15,t15,o16,t16,o17,t17,o18,t18])
             return 'circle'+d.data.year+d.data.name
           }
           else if (d.height==0) {
-            var a=d.data.name.replace(/\.*\(*\)*\:*\-*\s*/g,"")
+            var a=d.data.name.replace(/\,*\.*\(*\)*\:*\-*\s*/g,"")
             return 'circle'+a+d.data.type
           }
           else{
@@ -399,9 +367,6 @@ Promise.all([o14,t14,o15,t15,o16,t16,o17,t17,o18,t18])
         .on('mouseout', function(){
           var a=d3.select(this).attr('stroke', 'none')
       })
-        .on("click",function(){
-
-        })
       })
 
 
@@ -564,7 +529,7 @@ Promise.all([o14,t14,o15,t15,o16,t16,o17,t17,o18,t18])
       else{
         var baseline=260+i*260
         var group=info.append("g").attr('id', function(){
-          var a=d.data.name.replace(/\.*\(*\)*\:*\-*\s*/g,"")
+          var a=d.data.name.replace(/\,*\.*\(*\)*\:*\-*\s*/g,"")
           return "g"+a+d.data.type
         })
 
@@ -658,9 +623,10 @@ Promise.all([o14,t14,o15,t15,o16,t16,o17,t17,o18,t18])
     var swidth = scatterscreen.width - sm.left - sm.right
     var sheight = scatterscreen.height - sm.top - sm.bottom;
 
+    // background for buttons
     var decorationSvg=d3.select("body").append("svg")
     .attr('height', 170)
-    .attr('width', 2000)
+    .attr('width', 1350)
     .attr('id', 'decorationSvg')
 
     var decoGradient=
@@ -679,7 +645,6 @@ Promise.all([o14,t14,o15,t15,o16,t16,o17,t17,o18,t18])
     .attr('offset', "100%")
     .attr('stop-color', "black")
 
-
     for (i=0;i<6;i++){
       decorationSvg.append("circle")
           .attr('cx',function(){return sm.left+60+i*170} )
@@ -688,11 +653,12 @@ Promise.all([o14,t14,o15,t15,o16,t16,o17,t17,o18,t18])
           .style('fill', 'url(#decoGradient)');
     }
 
+    // scatterplot svg
     var scatterSvg=d3.select("body").append("svg")
     .attr('height', scatterscreen.height)
     .attr('width', scatterscreen.width)
     .attr('id', 'scatterSvg')
-
+    // scatterplot background
     scatterSvg.append("rect")
         .attr('x', sm.left)
         .attr('y', sm.top-20)
@@ -700,7 +666,7 @@ Promise.all([o14,t14,o15,t15,o16,t16,o17,t17,o18,t18])
         .attr('height', sheight+30)
         .attr('fill-opacity', 1)
         .style('fill', '#111')
-
+    // yaxis dash line
     for(i=0;i<8;i++){
       scatterSvg.append("line")
           .attr('x1', 35)
@@ -711,7 +677,26 @@ Promise.all([o14,t14,o15,t15,o16,t16,o17,t17,o18,t18])
           .attr('stroke-width', 0.5)
           .attr('stroke-dasharray', '10,5')}
 
-
+    // scatterplot color legend
+    var scatterLegend=scatterSvg.append("g").attr('id', 'scatterLegend')
+    var colorLegendScale=d3.scaleOrdinal()
+    .domain([0,1,2])
+    .range(["#009392","#FFAF30","#ca562c"])
+    var colorTextScale=d3.scaleOrdinal()
+    .domain([0,1,2])
+    .range(["Top-Sellings","Best Picture Winner","Best Picture Nominees"])
+    for(i=0;i<3;i++){
+      decorationSvg.append("circle")
+          .attr('cx',1100)
+          .attr('cy',function(){return 20+i*40} )
+          .attr('r',7)
+          .style('fill', function(){return colorLegendScale(i)});
+      decorationSvg.append("text")
+      .attr('x', 1150)
+      .attr('y', function(){return 25+i*40})
+      .text(function(){return colorTextScale(i)})
+      .attr('class', 'legendText')
+    }
 
         //button click change
         for(i=0;i<6;i++){
@@ -790,15 +775,75 @@ Promise.all([o14,t14,o15,t15,o16,t16,o17,t17,o18,t18])
                   if(d.group=="top"){return "#009392"}
                   else{return "#ca562c"}
                 })
+                .on('mouseover',function(d){
+                  d3.select(this)
+                  .transition()
+                  .duration(200)
+                  .attr('r',10)
+                  .attr('stroke', 'white')
+                  .attr('stroke-width', 2)
+                  var x=parseInt(d3.select(this).attr('cx'))-15
+                  var y=parseInt(d3.select(this).attr('cy'))+25
+                  scatterSvg.append("text")
+                  .attr('x',x)
+                  .attr('y',y)
+                  .attr('text-anchor', 'start')
+                  .text(function(){
+                    console.log(d)
+                    return d.name})
+                  .attr('id', 'tooltip')
+                  .attr('class', 'tooltip')
+
+                })
+                .on('mouseout', function(){
+                  d3.select(this)
+                  .transition()
+                  .duration(200)
+                  .attr('r',5)
+                  .attr('stroke', "none")
+                  d3.select("#tooltip").remove()
+                })
                 .merge(circles)
                 .transition()
     						.duration(1000)
                 .attr('cx',function(d){return xScale(d.genre)})
                 .attr('cy', function(d){return yScale(d.rate)})
-                .attr('r',4)
+                .attr('r',5)
                 .style('fill', function(d){
                   if(d.group=="top"){return "#009392"}
-                  else{return "#ca562c"}
+                  else{
+                    if (d.rank==1){return "#FFAF30"}
+                    else {
+                      return "#ca562c"
+                    }}
+                })
+                .on('mouseover',function(d){
+                  d3.select(this)
+                  .transition()
+                  .duration(200)
+                  .attr('r',10)
+                  .attr('stroke', 'white')
+                  .attr('stroke-width', 2)
+                  var x=parseInt(d3.select(this).attr('cx'))-15
+                  var y=parseInt(d3.select(this).attr('cy'))+25
+                  scatterSvg.append("text")
+                  .attr('x',x)
+                  .attr('y',y)
+                  .attr('text-anchor', 'start')
+                  .text(function(){
+                    console.log(d)
+                    return d.name})
+                  .attr('id', 'tooltip')
+                  .attr('class', 'tooltip')
+
+                })
+                .on('mouseout', function(){
+                  d3.select(this)
+                  .transition()
+                  .duration(200)
+                  .attr('r',5)
+                  .attr('stroke', "none")
+                  d3.select("#tooltip").remove()
                 })
               }
               else if (scatterData.length<circleNum) {
@@ -812,10 +857,42 @@ Promise.all([o14,t14,o15,t15,o16,t16,o17,t17,o18,t18])
     						.duration(1000)
                 .attr('cx',function(d){return xScale(d.genre)})
                 .attr('cy', function(d){return yScale(d.rate)})
-                .attr('r',4)
+                .attr('r',5)
                 .style('fill', function(d){
                   if(d.group=="top"){return "#009392"}
-                  else{return "#ca562c"}
+                  else{
+                    if (d.rank==1){return "#FFAF30"}
+                    else {
+                      return "#ca562c"
+                    }}
+                })
+                .on('mouseover',function(d){
+                  d3.select(this)
+                  .transition()
+                  .duration(200)
+                  .attr('r',10)
+                  .attr('stroke', 'white')
+                  .attr('stroke-width', 2)
+                  var x=parseInt(d3.select(this).attr('cx'))-15
+                  var y=parseInt(d3.select(this).attr('cy'))+25
+                  scatterSvg.append("text")
+                  .attr('x',x)
+                  .attr('y',y)
+                  .attr('text-anchor', 'start')
+                  .text(function(){
+                    console.log(d)
+                    return d.name})
+                  .attr('id', 'tooltip')
+                  .attr('class', 'tooltip')
+
+                })
+                .on('mouseout', function(){
+                  d3.select(this)
+                  .transition()
+                  .duration(200)
+                  .attr('r',5)
+                  .attr('stroke', "none")
+                  d3.select("#tooltip").remove()
                 })
 
               }
@@ -833,20 +910,84 @@ Promise.all([o14,t14,o15,t15,o16,t16,o17,t17,o18,t18])
               .append('circle')
               .attr('cx',function(d){return xScale(d.genre)})
               .attr('cy', function(d){return yScale(d.rate)})
-              .attr('r',4)
+              .attr('r',5)
               .style('fill', function(d){
                 if(d.group=="top"){return "#009392"}
-                else{return "#ca562c"}
+                else{
+                  if (d.rank==1){return "#FFAF30"}
+                  else {
+                    return "#ca562c"
+                  }}
+              })
+              .on('mouseover',function(d){
+                d3.select(this)
+                .transition()
+                .duration(200)
+                .attr('r',10)
+                .attr('stroke', 'white')
+                .attr('stroke-width', 2)
+                var x=parseInt(d3.select(this).attr('cx'))-15
+                var y=parseInt(d3.select(this).attr('cy'))+25
+                scatterSvg.append("text")
+                .attr('x',x)
+                .attr('y',y)
+                .attr('text-anchor', 'start')
+                .text(function(){
+                  console.log(d)
+                  return d.name})
+                .attr('id', 'tooltip')
+                .attr('class', 'tooltip')
+
+              })
+              .on('mouseout', function(){
+                d3.select(this)
+                .transition()
+                .duration(200)
+                .attr('r',5)
+                .attr('stroke', "none")
+                d3.select("#tooltip").remove()
               })
               .merge(circles)
               .transition()
   						.duration(1000)
               .attr('cx',function(d){return xScale(d.genre)})
               .attr('cy', function(d){return yScale(d.rate)})
-              .attr('r',4)
+              .attr('r',5)
               .style('fill', function(d){
                 if(d.group=="top"){return "#009392"}
-                else{return "#ca562c"}
+                else{
+                  if (d.rank==1){return "#FFAF30"}
+                  else {
+                    return "#ca562c"
+                  }}
+              })
+              .on('mouseover',function(d){
+                d3.select(this)
+                .transition()
+                .duration(200)
+                .attr('r',10)
+                .attr('stroke', 'white')
+                .attr('stroke-width', 2)
+                var x=parseInt(d3.select(this).attr('cx'))-15
+                var y=parseInt(d3.select(this).attr('cy'))+25
+                scatterSvg.append("text")
+                .attr('x',x)
+                .attr('y',y)
+                .attr('text-anchor', 'start')
+                .text(function(){
+                  console.log(d)
+                  return d.name})
+                .attr('id', 'tooltip')
+                .attr('class', 'tooltip')
+
+              })
+              .on('mouseout', function(){
+                d3.select(this)
+                .transition()
+                .duration(200)
+                .attr('r',5)
+                .attr('stroke', "none")
+                d3.select("#tooltip").remove()
               })
 
             }
@@ -926,10 +1067,42 @@ Promise.all([o14,t14,o15,t15,o16,t16,o17,t17,o18,t18])
             .append('circle')
             .attr('cx',function(d){return xScale(d.genre)})
             .attr('cy', function(d){return yScale(d.rate)})
-            .attr('r',4)
+            .attr('r',5)
             .style('fill', function(d){
               if(d.group=="top"){return "#009392"}
-              else{return "#ca562c"}
+              else{
+                if (d.rank==1){return "#FFAF30"}
+                else {
+                  return "#ca562c"
+                }}
+            })
+            .on('mouseover',function(d){
+              d3.select(this)
+              .transition()
+              .duration(200)
+              .attr('r',10)
+              .attr('stroke', 'white')
+              .attr('stroke-width', 2)
+              var x=parseInt(d3.select(this).attr('cx'))-15
+              var y=parseInt(d3.select(this).attr('cy'))+25
+              scatterSvg.append("text")
+              .attr('x',x)
+              .attr('y',y)
+              .attr('text-anchor', 'start')
+              .text(function(){
+                console.log(d)
+                return d.name})
+              .attr('id', 'tooltip')
+              .attr('class', 'tooltip')
+
+            })
+            .on('mouseout', function(){
+              d3.select(this)
+              .transition()
+              .duration(200)
+              .attr('r',5)
+              .attr('stroke', "none")
+              d3.select("#tooltip").remove()
             })
 
 

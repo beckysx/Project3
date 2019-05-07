@@ -12,7 +12,9 @@ svg{
 
 .title{
   font-family: 'Abril Fatface', cursive;
-  font-size: 45px;
+  font-size: 60px;
+  stroke:white;
+  stroke-width:1px;
 }
 
 #window{
@@ -58,7 +60,19 @@ svg{
   font-size: 13px;
   fill:white;
 }
+
+.legendText{
+  font-family: 'Josefin Sans', sans-serif;
+  font-size: 15px;
+  fill:white;
+}
+
 #decorationSvg{
   position: absolute;
   top: 1125px;
+}
+.tooltip{
+  font-family: 'Josefin Sans', sans-serif;
+  font-size: 15px;
+  fill:white;
 }

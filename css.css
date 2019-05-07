@@ -3,7 +3,9 @@
 font-family: 'Acme', sans-serif;
 font-family: 'Josefin Slab', serif;
 font-family: 'Josefin Sans', sans-serif;*/
-
+body{
+background-color: black
+}
 svg{
   display: block;
 }
@@ -40,9 +42,8 @@ svg{
 }
 
 #scatterSvg{
-  border: solid;
   position: relative;
-  top:50px;
+  top:20px;
 }
 
 .boardYear{
@@ -50,4 +51,9 @@ svg{
   font-size: 20px;
   fill: white;
   text-decoration: underline;
+}
+
+.yaxisText{
+  font-family: 'Josefin Sans', sans-serif;
+  font-size: 13px;
 }

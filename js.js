@@ -23,6 +23,13 @@ var title=d3.select("body").append("svg")
 .attr('height', 250)
 .attr('width', 1000)
 
+title.append("rect")
+    .attr('x',0)
+    .attr('y',25)
+    .attr('width', 950)
+    .attr('height', 225)
+    .style('fill', 'white');
+
 title.append("text")
 .attr('x', '20')
 .attr('y', '90')
@@ -41,6 +48,48 @@ title.append("text")
 .attr('y', '220')
 .text("Oscar Nominees")
 .attr('class', 'title')
+
+var getScatterData=function(dataset,year){
+  var newDataset=[]
+  dataset.forEach(function(d){
+    if (d.data.year==year){
+      var movieGenre=d.data.genre.split(",")
+      var repetition=movieGenre.length
+      for(i=0;i<repetition;i++){
+        var newD={"rank":d.data.rank,
+                  "name":d.data.name,
+                  "ticket":d.data.ticket,
+                  "rate":d.data.rate,
+                  "group":d.data.type,
+                  "year":d.data.year}
+        var genreArray=d.data.genre.split(",")
+        newD.genre=genreArray[i]
+        newDataset.push(newD)
+      }
+    }
+  })
+  return newDataset
+}
+
+var getAllScatterData=function(dataset){
+  var newDataset=[]
+  dataset.forEach(function(d){
+      var movieGenre=d.data.genre.split(",")
+      var repetition=movieGenre.length
+      for(i=0;i<repetition;i++){
+        var newD={"rank":d.data.rank,
+                  "name":d.data.name,
+                  "ticket":d.data.ticket,
+                  "rate":d.data.rate,
+                  "group":d.data.type,
+                  "year":d.data.year}
+        var genreArray=d.data.genre.split(",")
+        newD.genre=genreArray[i]
+        newDataset.push(newD)
+      }
+  })
+  return newDataset
+}
 
 Promise.all([o14,t14,o15,t15,o16,t16,o17,t17,o18,t18])
 .then(function(d){
@@ -70,7 +119,7 @@ Promise.all([o14,t14,o15,t15,o16,t16,o17,t17,o18,t18])
 }
   }
 
-  var screen={width:850,height:700};
+  var screen={width:850,height:800};
   var margin = {top: 50, right: 50, bottom: 50, left: 500};
   var w = screen.width - margin.left - margin.right;
   var h = screen.height - margin.top - margin.bottom;
@@ -82,7 +131,7 @@ Promise.all([o14,t14,o15,t15,o16,t16,o17,t17,o18,t18])
 
     // circle packing
     var pack=d3.pack()
-    .size([950,700])
+    .size([950,800])
     .padding(2)
     var root=d3.hierarchy(dataset)
                 .sum(function(d){
@@ -247,8 +296,8 @@ Promise.all([o14,t14,o15,t15,o16,t16,o17,t17,o18,t18])
 
         d3.select("#y"+d.data.year)
         .append('circle')
-        .attr('cx', d.x-130)
-        .attr('cy', d.y+40)
+        .attr('cx', d.x-100)
+        .attr('cy', d.y+20)
         .attr('r',d.r)
         .style('fill', function(){
           if (d.height==2){return "gray"}
@@ -298,7 +347,6 @@ Promise.all([o14,t14,o15,t15,o16,t16,o17,t17,o18,t18])
           if(check.slice(0,3)!="big"){
             var b=d3.select(this).attr('id').replace("circle","")
             var group=d3.select('#g'+b)
-            console.log('#g'+b)
             var y=group.select("rect").attr('y')
             var dy=260-y
             d3.select("#info").selectAll("g")
@@ -341,6 +389,13 @@ Promise.all([o14,t14,o15,t15,o16,t16,o17,t17,o18,t18])
     .attr('y', 260)
     .attr('width', width)
     .attr('height',infoscreen.height)
+
+    infowindow.append('rect')
+        .attr('x',120 )
+        .attr('y',0 )
+        .attr('width', 250)
+        .attr('height', 250)
+        .style('fill', 'white');
 
     infowindow.append("svg:image")
     .attr('xlink:href', function(){return "d1.png"})
@@ -532,7 +587,7 @@ Promise.all([o14,t14,o15,t15,o16,t16,o17,t17,o18,t18])
             //Genre
             group.append("text")
             .attr('x', 80)
-            .attr('y', baseline+220)
+            .attr('y', baseline+210)
             .text(function(){
               var genre=d.data.genre
               return "Genre: "+genre
@@ -544,72 +599,257 @@ Promise.all([o14,t14,o15,t15,o16,t16,o17,t17,o18,t18])
     })
 
     // Scatterplot part
-    var year=2014
+    var year="all"
     var scatterscreen={width:1350,height:600}
-    var smargin = {top: 200, right: 10, bottom: 50, left: 10},
-        swidth = scatterscreen.width - margin.left - margin.right,
-        sheight = scatterscreen.height - margin.top - margin.bottom;
+    var sm = {top: 150, right: 10, bottom: 30, left: 10}
+    var swidth = scatterscreen.width - sm.left - sm.right
+    var sheight = scatterscreen.height - sm.top - sm.bottom;
 
     var scatterSvg=d3.select("body").append("svg")
     .attr('height', scatterscreen.height)
     .attr('width', scatterscreen.width)
     .attr('id', 'scatterSvg')
 
-    for(i=0;i<5;i++){
-      //click button
-      scatterSvg.append("svg:image")
-      .attr('xlink:href', function(){
-        if(i==0){return "close.png"}
-        else{return "open.png"}
-      })
-      .attr('x', function(){return smargin.left+i*170})
-      .attr('y', 0)
-      .attr('width', 120)
-      .attr('height', 120)
-      .attr('id', function(){return "board"+(2014+i)})
-      .on('mouseover', function(){
-        d3.select(this)
-        .attr('xlink:href', "close.png")
-        .attr('y', 8)
-      })
-      .on('mouseout',function(){
-        d3.select(this)
-        .attr('xlink:href', "open.png")
-        .attr('y', 0)
-      })
-      .on('click',function(){
-        // former button
-        d3.select("#board"+year)
-        .attr('xlink:href', "open.png")
-        .attr('y', 0)
-        //new button change
-        d3.select(this)
-        .attr('xlink:href', "close.png")
-        .attr('y', 8)
-        var clickedid=d3.select(this).attr('id')
-        var clickedyear=parseInt(clickedid.slice(5))
-        var yeari=year
-        year=clickedyear
+    scatterSvg.append("rect")
+        .attr('x', sm.left)
+        .attr('y', sm.top-20)
+        .attr('width', swidth)
+        .attr('height', sheight+30)
+        .attr('fill-opacity', 1)
+        .style('fill', '#111')
 
-      } )
+    for(i=0;i<8;i++){
+      scatterSvg.append("line")
+          .attr('x1', 35)
+          .attr('y1', function(){return 150+i*60})
+          .attr('x2', 1330)
+          .attr('y2',function(){return 150+i*60})
+          .attr('stroke', 'grey')
+          .attr('stroke-width', 0.5)
+          .attr('stroke-dasharray', '10,5')
 
-      // text on board
-      scatterSvg.append("text")
-      .attr('x', function(){return smargin.left+40+i*170})
-      .attr('y', 85)
-      .text(function(){return 2014+i})
-      .attr('class', 'boardYear')
     }
 
 
 
+        //button click change
+        for(i=0;i<6;i++){
+          //click button
+          scatterSvg.append("svg:image")
+          .attr('xlink:href', function(){
+            if(i==5){return "close.png"}
+            else{return "open.png"}
+          })
+          .attr('x', function(){return sm.left+i*170})
+          .attr('y', function(){
+            if(i==5){return 8}
+            else{return 0}
+          })
+          .attr('width', 120)
+          .attr('height', 120)
+          .attr('id', function(){
+            if(i==5){return "boardall"}
+            else{return "board"+(2014+i)}
+            })
+          .on('mouseover', function(){
+            var clickedid=d3.select(this).attr('id')
+            var clickedyear=clickedid.slice(5)
+            if (clickedyear!=year.toString()){
+              d3.select(this)
+              .attr('xlink:href', "close.png")
+              .attr('y', 8)
+            }
+            else if (clickedyear=="all") {
+              d3.select(this)
+              .attr('xlink:href', "close.png")
+              .attr('y', 8)
+            }
+
+
+          })
+          .on('mouseout',function(){
+            var clickedid=d3.select(this).attr('id')
+            var clickedyear=clickedid.slice(5)
+            if (clickedyear!=year.toString()){
+              d3.select(this)
+              .attr('xlink:href', "open.png")
+              .attr('y', 0)
+            }
+
+          })
+          .on('click',function(){
+            // former button
+            d3.select("#board"+year)
+            .attr('xlink:href', "open.png")
+            .attr('y', 0)
+            //new button change
+            d3.select(this)
+            .attr('xlink:href', "close.png")
+            .attr('y', 8)
+            var clickedid=d3.select(this).attr('id')
+            var clickedyear=clickedid.slice(5)
+            var circleNum=d3.select("#scatterSvg")
+            .selectAll("circle").size()
+
+            if(clickedyear!="all"){
+              var yeari=year
+              year=parseInt(clickedyear)
+
+              var scatterData=getScatterData(nodes.slice(16),year)
+              if (scatterData.length>circleNum){
+                var circles=scatterSvg.selectAll("circle")
+                .data(scatterData)
+
+                circles.enter()
+                .append('circle')
+                .attr('cx',function(d){return xScale(d.genre)})
+                .attr('cy', function(d){return yScale(d.rate)})
+                .attr('r',4)
+                .style('fill', function(d){
+                  if(d.group=="top"){return "#009392"}
+                  else{return "#ca562c"}
+                })
+                .merge(circles)
+                .transition()
+    						.duration(1000)
+                .attr('cx',function(d){return xScale(d.genre)})
+                .attr('cy', function(d){return yScale(d.rate)})
+                .attr('r',4)
+                .style('fill', function(d){
+                  if(d.group=="top"){return "#009392"}
+                  else{return "#ca562c"}
+                })
+              }
+              else if (scatterData.length<circleNum) {
+                var circles=scatterSvg.selectAll("circle")
+                .data(scatterData)
+
+                circles.exit()
+                .remove()
+                .merge(circles)
+                .transition()
+    						.duration(1000)
+                .attr('cx',function(d){return xScale(d.genre)})
+                .attr('cy', function(d){return yScale(d.rate)})
+                .attr('r',4)
+                .style('fill', function(d){
+                  if(d.group=="top"){return "#009392"}
+                  else{return "#ca562c"}
+                })
+
+              }
 
 
 
+            }
+            else{
+              var scatterData=getAllScatterData(nodes.slice(16))
+
+              var circles=scatterSvg.selectAll("circle")
+              .data(scatterData)
+
+              circles.enter()
+              .append('circle')
+              .attr('cx',function(d){return xScale(d.genre)})
+              .attr('cy', function(d){return yScale(d.rate)})
+              .attr('r',4)
+              .style('fill', function(d){
+                if(d.group=="top"){return "#009392"}
+                else{return "#ca562c"}
+              })
+              .merge(circles)
+              .transition()
+  						.duration(1000)
+              .attr('cx',function(d){return xScale(d.genre)})
+              .attr('cy', function(d){return yScale(d.rate)})
+              .attr('r',4)
+              .style('fill', function(d){
+                if(d.group=="top"){return "#009392"}
+                else{return "#ca562c"}
+              })
+
+            }
 
 
 
+          } )
 
+          // text on board
+          scatterSvg.append("text")
+          .attr('x', function(){
+            if(i==5){return sm.left+25+i*170}
+            else{return sm.left+40+i*170}})
+          .attr('y', 85)
+          .text(function(){
+            if(i==5){return "5 Years"}
+            else{return 2014+i}})
+          .attr('class', 'boardYear')
+        }
+
+        //draw the scatterplot
+            //get movie genre list
+            var genreArray=[]
+            nodes.slice(16).forEach(function(d){
+              var movieGenre=d.data.genre.split(",")
+              movieGenre.forEach(function(genre){
+                if(genreArray.includes(genre)==false){
+                  genreArray.push(genre)
+                }
+              })
+            })
+
+            // scales
+            var xRange=[]
+            for (i=0;i<18;i++){
+              var length=swidth-20
+              var dx=length/18
+              var middleX=Math.round(sm.right+10+dx/2+i*dx)
+              xRange.push(middleX)
+            }
+
+            var yScale=d3.scaleLinear()
+                .domain([5.5,9])
+                .range([scatterscreen.height-sm.bottom,sm.top]);
+            var xScale=d3.scaleOrdinal()
+            .domain(genreArray)
+            .range(xRange)
+
+
+            // axis
+            var xAxis=d3.axisLeft(yScale)
+                              .tickSize(0)
+
+            scatterSvg.append("g")
+            .attr('id', 'scatterXaxis')
+            .call(xAxis)
+            .attr('stroke', 'white')
+            .attr('transform', 'translate(' + 30 + ',' + 0 + ')')
+
+            scatterSvg.append("g").selectAll("text")
+            .data(genreArray)
+            .enter()
+            .append("text")
+            .attr('text-anchor', 'middle')
+            .attr('x', function(d){return xScale(d)})
+            .attr('y', scatterscreen.height-5)
+            .text(function(d){return d})
+            .attr('class', 'yaxisText')
+
+
+            //draw circles
+            var scatterData=getAllScatterData(nodes.slice(16))
+
+            scatterSvg.selectAll("circle")
+            .data(scatterData)
+            .enter()
+            .append('circle')
+            .attr('cx',function(d){return xScale(d.genre)})
+            .attr('cy', function(d){return yScale(d.rate)})
+            .attr('r',4)
+            .style('fill', function(d){
+              if(d.group=="top"){return "#009392"}
+              else{return "#ca562c"}
+            })
 
 
 
